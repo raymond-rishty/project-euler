@@ -17,7 +17,7 @@ public class PrimeSieve {
 		for (int i = 2; i < upperBound; i++) {
             if (!sieve.get(i)) {
                 primeListBuilder.add(i);
-                for (int j = i * i; j < upperBound; j += i) {
+                for (int j = i + i; j < upperBound && j > 0; j += i) {
                     sieve.set(j);
                 }
             }
