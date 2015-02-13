@@ -14,7 +14,7 @@ For example, 3^2 + 4^2 = 9 + 16 = 25 = 5^2.
 
 There exists exactly one Pythagorean triplet for which a + b + c = 1000.
 Find the product abc.*/
-public class Problem9 {
+public class Problem009 {
 
     public static class Triple {
         private final int a;
@@ -81,7 +81,7 @@ public class Problem9 {
             }
         };
         Triple root = new Triple(3, 4, 5);
-        
+
         Optional<Triple> foundTriple = treeTraverser.breadthFirstTraversal(root)
                 .toList()
                 .stream()
