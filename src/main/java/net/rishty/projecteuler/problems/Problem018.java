@@ -1,6 +1,7 @@
 package net.rishty.projecteuler.problems;
 
 import com.google.common.base.Splitter;
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.*;
 
 import java.io.PrintStream;
@@ -106,8 +107,9 @@ public class Problem018 {
     }
 
     public static void main(String[] args) {
-        Problem018 app = new Problem018();
-        app.run();
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        new Problem018().run();
+        System.out.println(stopwatch.stop());
     }
 
     private void run() {

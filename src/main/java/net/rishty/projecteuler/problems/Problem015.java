@@ -1,5 +1,7 @@
 package net.rishty.projecteuler.problems;
 
+import com.google.common.base.Stopwatch;
+
 /**
  * Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
  * <p>
@@ -20,7 +22,9 @@ public class Problem015 {
     }
 
     public static void main(String[] args) {
+        Stopwatch stopwatch = Stopwatch.createStarted();
         new Problem015().run();
+        System.out.println(stopwatch.stop());
     }
 
     private void run() {

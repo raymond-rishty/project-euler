@@ -1,5 +1,6 @@
 package net.rishty.projecteuler.problems;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.primitives.Chars;
 
 import java.math.BigInteger;
@@ -22,7 +23,9 @@ public class Problem016 {
     }
 
     public static void main(String[] args) {
+        Stopwatch stopwatch = Stopwatch.createStarted();
         new Problem016().run();
+        System.out.println(stopwatch.stop());
     }
 
     private void run() {
