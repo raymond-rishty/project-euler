@@ -29,7 +29,15 @@ public class Problem014 {
         }
     }
 
-    public int collatzLength(long n, TLongIntHashMap lengths) {
+    public int collatzLengthRecursive(long n, TLongIntHashMap lengths) {
+        if (!lengths.containsKey(n)) {
+            lengths.put(n, 1 + collatzLengthRecursive(nextCollatz(n), lengths));
+        }
+
+        return lengths.get(n);
+    }
+
+    public int collatzLengthIterative(long n, TLongIntHashMap lengths) {
         int length = 0;
         long i = n;
         do {
@@ -52,7 +60,7 @@ public class Problem014 {
 
                     @Override
                     public int applyAsInt(int left, int right) {
-                        int length = collatzLength(right, lengths);
+                        int length = collatzLengthRecursive(right, lengths);
                         if (length > maxLength) {
                             maxLength = length;
                             return right;
