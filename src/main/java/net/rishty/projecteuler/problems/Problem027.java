@@ -12,7 +12,7 @@ public class Problem027 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		ImmutableList<Integer> sieve = PrimeSieve.getSieve(100000);
+		ImmutableList<Integer> sieve = PrimeSieve.getPrimes(100000);
 		int max = 0;
 		int maxA = 0;
 		int maxB = 0;

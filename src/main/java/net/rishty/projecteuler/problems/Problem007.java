@@ -12,7 +12,7 @@ public class Problem007 {
     }
 
     private void run() {
-        ImmutableList<Integer> primes = PrimeSieve.getSieve(1000000);
+        ImmutableList<Integer> primes = PrimeSieve.getPrimes(1000000);
         Integer prime = primes.get(10000);
         System.out.println(prime);
     }

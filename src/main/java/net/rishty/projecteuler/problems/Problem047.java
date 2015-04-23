@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class Problem047 {
     public static void main(String[] args) {
-        ImmutableList<Integer> sieve = PrimeSieve.getSieve(1000);
+        ImmutableList<Integer> sieve = PrimeSieve.getPrimes(1000);
         int consecutivesWithPrimeFactors = findConsecutivesWithPrimeFactors(4, 4, sieve);
         System.out.println(consecutivesWithPrimeFactors);
     }
