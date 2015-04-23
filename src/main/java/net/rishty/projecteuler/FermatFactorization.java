@@ -1,6 +1,6 @@
 package net.rishty.projecteuler;
 
-import sun.jvm.hotspot.utilities.Assert;
+import com.google.common.base.Preconditions;
 
 /**
  * Created by raymondrishty on 12/17/14.
@@ -25,7 +25,7 @@ public class FermatFactorization {
             int b = (int) Math.sqrt(b2);
             int m = a + b;
             int n = a - b;
-            Assert.that(m * n == i, "Invalid solution");
+        Preconditions.checkState(m * n == i, "Invalid solution");
             System.out.printf("%s = %s * %s%n", i, m, n);
 
     }
