@@ -1,7 +1,10 @@
 package net.rishty.projecteuler.problems;
 
 import com.google.common.base.Stopwatch;
-import com.google.common.collect.ImmutableSortedSet;
+import gnu.trove.iterator.TIntIterator;
+import gnu.trove.list.TIntList;
+import gnu.trove.map.TIntIntMap;
+import gnu.trove.map.hash.TIntIntHashMap;
 import net.rishty.projecteuler.util.PrimeSieve;
 
 /**
@@ -29,31 +32,28 @@ public class Problem050 {
   }
 
   public int getSumOfConsecutivePrimes(int upperLimit) {
-    ImmutableSortedSet<Integer> primes = ImmutableSortedSet.copyOf(PrimeSieve.getPrimes(upperLimit));
+    TIntList primeList = PrimeSieve.getPrimesTInt(upperLimit);
+    TIntIntMap map = new TIntIntHashMap();
 
-    int maxLength = 0;
-    int bestSum = 0;
+    int totalSum = 0;
 
-    for (int index = 0; index < primes.size(); index++) {
-      for (int length = maxLength + 1; length < primes.size() - index; length++) {
-        int sum = getSum(primes, index, length);
-        if (sum > upperLimit) {
-          break;
-        }
-        if (primes.contains(sum)) {
-          maxLength = length;
-          bestSum = sum;
+    for (TIntIterator primeIterator = primeList.iterator(); primeIterator.hasNext() && totalSum < upperLimit; ) {
+      int prime = primeIterator.next();
+      totalSum += prime;
+      map.put(prime, totalSum);
+    }
+
+    for (int length = map.size() - 1; length > 0; length--) {
+      for (int index = 0; index <= map.size() - length; index++) {
+        int lowerSum = index == 0 ? 0 : map.get(primeList.get(index));
+        int upperSum = map.get(primeList.get(index + length));
+        int sum = upperSum - lowerSum;
+        if (primeList.binarySearch(sum) > -1) {
+          return sum;
         }
       }
     }
 
-    return bestSum;
-  }
-
-  private int getSum(ImmutableSortedSet<Integer> primeList, int index, int length) {
-    return primeList.subSet(index, index + length)
-      .stream()
-      .mapToInt(Integer::intValue)
-      .sum();
+    return 0;
   }
 }
