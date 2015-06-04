@@ -52,9 +52,7 @@ public class Problem049 {
     List<String> collect = primes
       .stream()
       .filter(prime -> prime < 3310)
-      .filter(prime -> {
-        return primes.contains(prime + increment);
-      })
+      .filter(prime -> primes.contains(prime + increment))
       .filter(prime -> permutes(prime, prime + increment))
       .filter(prime -> primes.contains(prime + 2 * increment))
       .filter(prime -> permutes(prime, prime + 2 * increment))
