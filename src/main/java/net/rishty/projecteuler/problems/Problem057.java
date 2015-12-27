@@ -1,15 +1,20 @@
 package net.rishty.projecteuler.problems;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Stopwatch;
+import com.google.common.math.BigIntegerMath;
 
 import java.math.BigInteger;
+import java.math.RoundingMode;
+import java.util.stream.Stream;
 
 /**
  Square root convergents
  Problem 57
+
  It is possible to show that the square root of two can be expressed as an infinite continued fraction.
 
- ? 2 = 1 + 1/(2 + 1/(2 + 1/(2 + ... ))) = 1.414213...
+ √ 2 = 1 + 1/(2 + 1/(2 + 1/(2 + ... ))) = 1.414213...
 
  By expanding this for the first four iterations, we get:
 
@@ -24,46 +29,63 @@ import java.math.BigInteger;
  In the first one-thousand expansions, how many fractions contain a numerator with more digits than denominator?
  */
 public class Problem057 {
-  public static void main(String args[]) {
+  public static void main(String[] args) {
     Stopwatch stopwatch = Stopwatch.createStarted();
     new Problem057().run();
     System.out.println(stopwatch);
   }
 
   private void run() {
-    int count = countGreaterNumerator(1_000);
+    int count = countGreaterNumerator(1000);
     System.out.println(count);
   }
 
-  private int countGreaterNumerator(int maxExpansion) {
-    BigInteger pn2 = BigInteger.valueOf(0);
-    BigInteger pn1 = BigInteger.valueOf(1);
-    BigInteger hn2 = BigInteger.valueOf(2);
-    BigInteger hn1 = BigInteger.valueOf(2);
-
-    int count = 0;
-
-    for (int i = 0; i < maxExpansion; i++) {
-      BigInteger pn = pn1.add(pn1).add(pn2);
-      pn2 = pn1;
-      pn1 = pn;
-
-      BigInteger c = hn1.add(hn1).add(hn2);
-      hn2 = hn1;
-      hn1 = c;
-
-      BigInteger h = c.divide(BigInteger.valueOf(2));
-      int hDigits = digitCount(h);
-      int pDigits = digitCount(pn);
-      if (hDigits > pDigits) {
-        count++;
-      }
-    }
-
-    return count;
+  private int countGreaterNumerator(int limit) {
+    return (int) Stream.iterate(new Fraction(BigInteger.ONE, BigInteger.ONE), Fraction::next)
+            .limit(limit + 1)
+            .filter(this::isDigitLengthDifferent)
+            .count();
   }
 
-  private int digitCount(BigInteger number) {
-    return number.toString().length();
+  public boolean isDigitLengthDifferent(Fraction fraction) {
+    return digitLength(fraction.numerator) > digitLength(fraction.denominator);
+  }
+
+  int digitLength(BigInteger n) {
+    return BigIntegerMath.log10(n, RoundingMode.FLOOR) + 1;
+  }
+
+  static class Fraction {
+    private final BigInteger numerator;
+    private final BigInteger denominator;
+
+    Fraction(BigInteger numerator, BigInteger denominator) {
+      this.numerator = numerator;
+      this.denominator = denominator;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Fraction fraction = (Fraction) o;
+      return Objects.equal(numerator, fraction.numerator) &&
+              Objects.equal(denominator, fraction.denominator);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hashCode(numerator, denominator);
+    }
+
+    @Override
+    public String toString() {
+      return String.format("%s/%s", numerator, denominator);
+    }
+
+    Fraction next() {
+      return new Fraction(numerator.add(denominator).add(denominator),
+              numerator.add(denominator));
+    }
   }
 }
