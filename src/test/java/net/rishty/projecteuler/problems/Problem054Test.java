@@ -4,9 +4,6 @@ import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 
-/**
- * Created by raymondrishty on 10/2/15.
- */
 public class Problem054Test {
 
     @Test
